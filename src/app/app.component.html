@@ -1,0 +1,62 @@
+<router-outlet></router-outlet>
+
+<div class="container">
+
+  <div class="my-3 flex justify-center items-center">
+    <!-- Botón para añadir un nuevo contacto -->
+    <button class="btn btn-success text-white mx-2" onclick="addRecipeModal.showModal()"> 
+      <i class="fa-solid fa-user-plus"></i> Añadir Contacto 
+    </button>
+  
+    <!-- Botón para borrar toda la agenda -->
+    <button class="btn bg-red-600 text-white mx-2" (click)="borrarAgenda()"> 
+      <i class="fa-solid fa-trash"></i> Borrar Agenda 
+    </button>  
+  </div>
+
+
+  <!-- Modal oculto -->
+  <dialog id="addRecipeModal" class="modal">
+    <div class="modal-box flex flex-col items-center">
+      <div class="modal-action">
+        <form (ngSubmit)="agregarContacto($event)" method="dialog">
+          <div class="form-group hidden">
+            <label for="id">ID:</label>
+            <input type="text" class="form-control" [(ngModel)]="id" name="id">
+          </div>
+          <div class="form-group" class="mb-5">
+            <label for="nombre" class="text-center">Nombre</label>
+            <input type="text" class="form-control rounded border-2 border-black" [(ngModel)]="nombre" name="nombre" required pattern="[a-zA-Z\s]+" title="Solo letras y espacios">
+          </div>
+          <div class="form-group" class="mb-5">
+            <label for="telefono" class="text-center">Teléfono</label>
+            <input type="tel" class="form-control rounded border-2 border-black" [(ngModel)]="telefono" name="telefono" required pattern="[0-9]{9}" title="Debe contener 9 aaaa dígitos numéricos">
+          </div>
+          <div class="text-center">
+            <button type="submit" class="rounded p-2 bg-green-500 text-white mr-2"> <i class="fa-solid fa-floppy-disk"></i> Guardar </button>
+            <button type="button" class="rounded p-2 bg-slate-400 text-white" onclick="addRecipeModal.close()" (click)="limpiarFormulario()">Cerrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Lista de contactos -->
+  <div class="flex justify-center mt-14">
+    <div class="w-full max-w-lg">
+      <h2 class="text-center text-2xl mb-4">Lista de Contactos</h2>
+      <div class="flex justify-center bg-orange-200 rounded p-4">
+        <ul>
+          <li *ngFor="let contacto of contactos" class="bg-orange-50 p-3 rounded-md mt-5 mb-5">
+            {{ contacto.nombre }} - {{ contacto.telefono }}
+            <!-- Botones para editar y eliminar contacto -->
+            <button onclick="addRecipeModal.showModal()" (click)="editarContacto(contacto)" class="rounded p-2 bg-blue-700 text-white ml-4 mr-2"> <i class="fa-solid fa-pencil"></i> Editar </button>
+            <button (click)="eliminarContacto(contacto)" class="rounded p-2 bg-red-600 text-white"> <i class="fa-solid fa-user-minus"></i> Eliminar </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+
+</div>
